@@ -35,6 +35,8 @@ int main()
 	char current_time[50];
 	
 	welcome_screen(current_time);
+	welcome_screen(current_time);
+	welcome_screen(current_time);
 
 	printf("%s", current_time);
 	
