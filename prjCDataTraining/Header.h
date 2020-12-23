@@ -7,15 +7,16 @@
 
 typedef union {
 	short nb_repetition;
-	time_t duree; //TODO: A voir et comprendre comment manipuler le temps en C. Adapter en consequence
+	short duree;
 
 } interval_duree;
 
 typedef struct { //TODO: A voir pour merge avec struct: exercice_sheet
 	char nom_exercice[100];
 	short nb_set;
-	time_t temps_recup;
+	short temps_recup;
 	interval_duree interval; //TODO:A voir pour le nom de la variable
+	short type_interval;
 	float weight;
 
 } exercice_template;
