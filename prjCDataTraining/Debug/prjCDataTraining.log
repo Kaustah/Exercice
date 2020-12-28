@@ -1,3 +1,11 @@
 ﻿  Source.c
-  LINK : C:\Users\steve\Desktop\C Compile\Project\prjCDataTraining\Debug\prjCDataTraining.exe not found or not built by the last incremental link; performing full link
-  prjCDataTraining.vcxproj -> C:\Users\steve\Desktop\C Compile\Project\prjCDataTraining\Debug\prjCDataTraining.exe
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(25): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(105): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[100]'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(105): warning C4024: 'cleanNewline': different types for formal and actual parameter 1
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(128): warning C4026: function declared with formal parameter list
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(133): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[1]'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(133): warning C4024: 'askquestion': different types for formal and actual parameter 2
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(138): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[1]'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(138): warning C4024: 'askquestion': different types for formal and actual parameter 2
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(213): warning C4101: 'current_time': unreferenced local variable
+  prjCDataTraining.vcxproj -> C:\Users\Kaustah\Desktop\Cours\exercice\Debug\prjCDataTraining.exe
