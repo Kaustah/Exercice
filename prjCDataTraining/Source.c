@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "Header.h"
-
+#define MAXEXERCICE 20
 
 //Receives ptrChar and modifies it as: (SQL format) "2020-12-25" 
 void now(char *time_string)
@@ -20,19 +20,28 @@ void now(char *time_string)
 		time_struct->tm_mday);			//Day
 }
 
-//Function to welcome user, get date(entered or auto), choose program day 
-void welcome_screen(char *current_time)
+int menu_main()
 {
-	now(current_time);
+	int menu_option = NULL;
 
-	puts("Programme initialisé. \n\n Veuillez entrer la date de l'entrainement. (Pour saisi automatique, Enter)");
-	
+	do {
+		puts("veuillez choisir une option.");
+		puts(	"\t1- Debuter entrainement!\n"
+				"\t2- Ajouter/Modifier Exercices\n"
+				"\t3- Ajouter/Modifier Journées Entrainement\n"
+				"\t0- Quitter\n\n");
+		scanf("%i", &menu_option);
+	} while (menu_option <0 || menu_option > 3);
+
+	return menu_option;
+
 }
 
 void print_exercice(exercice_template *temp_exercice)
 {
-	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "w");
+	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "a");
 
+	//TODO:Apres avoir ajouter le nouvel ENUM il faut maintenant imprimer sa valeur dans chaque IF et modifier la condition
 	if (temp_exercice->type_interval == 1)
 	{
 		fprintf(ptrTemplate, "'repetition','%s',%hu,%hu,%hu,%.2f\n",	temp_exercice->nom_exercice,
@@ -50,6 +59,7 @@ void print_exercice(exercice_template *temp_exercice)
 																temp_exercice->weight);
 		
 	}
+	fclose(ptrTemplate);
 	
 }
 
@@ -90,6 +100,7 @@ void remplir_template()
 {
 	exercice_template temp_exercice;
 
+	//TODO: Retirer scanf non necessaire, modifier vers fgets ou autre
 	printf("\nQuel est le nom de votre exercice (100char max): ");
 	fgets(temp_exercice.nom_exercice, 100, stdin);	/*Retirer '\n'*/ cleanNewline(&temp_exercice.nom_exercice);
 	printf("\nEntrer le nombre de sets: ");
@@ -104,19 +115,125 @@ void remplir_template()
 	print_exercice(&temp_exercice);
 }
 
+void askquestion(char *question, char *buffer)
+{
+	char whitespace[5] = "";
+
+	printf("\n%s O/N: ",question);
+	scanf(" %c", buffer);
+	fgets(whitespace, 5, stdin);
+}
+
+void createtemplate_loop()
+{
+	
+	char answer[1];
+	char *question = "Voulez-vous ajouter un exercice?";
+
+	askquestion(question, &answer);
+
+	while (answer[0] == 'O' || answer[0] == 'o')
+	{
+		remplir_template();
+		askquestion(question, &answer);
+	} 
+}
+
+//Will return wether or not user wants to train
+int request_training()
+{
+	char answer[1];
+	char *question = "Voulez vous debuter l'entrainement?";
+
+	askquestion(question, answer);
+
+	if (answer[0] == 'O' || answer[0] == 'o')
+	{
+		return 1;
+	}
+	else { return 0; }
+
+}
+
+//Returns I which will finally be amount of exercises created
+int fill_exercises(exercice_template *exercices)
+{
+	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "r");
+	char buffer[10];
+	//TODO: Supprimer Buffer et modifier while lorsque partie ENUM sera modifier
+
+	if (ptrTemplate == NULL)
+	{
+		puts("Template file does not exist. Add exercises before training");
+		return 0;
+	}
+
+	int i = 0;
+	while (fscanf(ptrTemplate, "%[^,],%[^,],%hu,%hu,%hu,%5f", &buffer, exercices[i].nom_exercice, &exercices[i].nb_set, &exercices[i].temps_recup, &exercices[i].interval.duree, &exercices[i].weight) == 6)
+	{
+
+		i++;
+	}
+	
+	return i++;
+}
+
+void printtemplatelist(exercice_template *templates, int nb_exercises)
+{
+	for (int i = 0; i < nb_exercises; i++)
+	{
+		//Print exercises
+		printf("%i- %s\n", i+1, templates[i].nom_exercice);
+	}
+	
+}
+
+void menu_training(exercice_template *exercices)
+{
+	if (request_training())
+	{
+		printtemplatelist(exercices, fill_exercises(exercices));
+	}
+	else { puts("I don't want to train!"); }
+}
+
+void menu_exercises()
+{
+	createtemplate_loop();
+}
+
+void menu_trainingday()
+{
+	printf("welcome to trainingday creation");
+}
+
 int main()
 {
-	char buffer[50];
+	exercice_template exercices[MAXEXERCICE];
 	char current_time[50];
-
-	welcome_screen(current_time);
-	printf("%s", current_time);
-
-	remplir_template();
-
+	int menu_option;
+	//Main Menu
 	
-	
+	do
+	{
+		switch (menu_option = menu_main())
+		{
+			case 1:
+				menu_training(exercices);
+				break;
+			case 2:
+				menu_exercises();
+				break;
+			case 3:
+				menu_trainingday();
+				break;
+			case 0:
+				puts("Fermeture application!");
+				break;
+		}
+	} while (menu_option != 0);
 
-	scanf("%79s", buffer);
+
+	puts("Fin Programme");
 	return 0;
 }

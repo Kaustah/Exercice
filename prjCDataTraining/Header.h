@@ -16,7 +16,7 @@ typedef struct {
 	short nb_set;
 	short temps_recup;
 	interval_duree interval;
-	short type_interval;
+	short type_interval; //TODO: Review where this is used to replace with an ENUM to specify the 2 types. Create enum
 	float weight;
 
 } exercice_template;
@@ -31,7 +31,7 @@ typedef struct {
 } exercice_sheet;
 
 typedef struct {
-	struct tm *tm; //TODO: A voir et comprendre comment manipuler le temps en C. Adapter en consequence//Date
+	struct tm *tm;
 	time_t starttime;//TODO: Creer fonction afin de retourner le format Date Heure en String pour insertion SQL
 	time_t endtime;
 	exercice_template type_exercice[10];	//TODO: Code5
@@ -47,3 +47,13 @@ char* concat(const char *s1, const char *s2)
 	strcat(result, s2);
 	return result;
 }
+
+//Functions
+void now(char *time_string);
+void welcome_screen(char *current_time);
+void print_exercice(exercice_template *temp_exercice);
+void choixInterval(exercice_template *temp_exercice);
+void cleanNewline(char *line);
+void remplir_template();
+void createtemplate_loop(char *buffer, char *whitespace);
+
