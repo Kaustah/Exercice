@@ -50,9 +50,17 @@ char* concat(const char *s1, const char *s2)
 
 //Functions
 void now(char *time_string);
+int menu_main();
 void print_exercice(exercice_template *temp_exercice);
 void choixInterval(exercice_template *temp_exercice);
 void cleanNewline(char *line);
 void remplir_template();
+int askquestion(char *question);
+void createtemplate_loop();
+int fill_exercises(exercice_template *exercices);
+void printtemplatelist(exercice_template *templates, int nb_exercises);
+void menu_training(exercice_template *exercices);
+void menu_exercises();
+void menu_trainingday();
 
 

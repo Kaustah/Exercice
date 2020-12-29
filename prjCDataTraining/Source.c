@@ -201,9 +201,9 @@ int main()
 {
 	exercice_template exercices[MAXEXERCICE];
 	char current_time[50];
-	int menu_option;
-	//Main Menu
 	
+	//Main Menu
+	int menu_option;
 	do
 	{
 		switch (menu_option = menu_main())
