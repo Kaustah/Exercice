@@ -114,14 +114,22 @@ void remplir_template()
 
 	print_exercice(&temp_exercice);
 }
-
-void askquestion(char *question, char *buffer)
+//Returns answer of the question, Y=true
+int askquestion(char *question)
 {
 	char whitespace[5] = "";
+	char answer = "";
 
 	printf("\n%s O/N: ",question);
-	scanf(" %c", buffer);
+	scanf(" %c", &answer);
 	fgets(whitespace, 5, stdin);
+	
+	if (answer == 'O' || answer == 'o')
+	{
+		return 1;
+	}
+	else { return 0; }
+
 }
 
 void createtemplate_loop()
@@ -130,29 +138,10 @@ void createtemplate_loop()
 	char answer[1];
 	char *question = "Voulez-vous ajouter un exercice?";
 
-	askquestion(question, &answer);
-
-	while (answer[0] == 'O' || answer[0] == 'o')
+	while (askquestion(question))
 	{
 		remplir_template();
-		askquestion(question, &answer);
 	} 
-}
-
-//Will return wether or not user wants to train
-int request_training()
-{
-	char answer[1];
-	char *question = "Voulez vous debuter l'entrainement?";
-
-	askquestion(question, answer);
-
-	if (answer[0] == 'O' || answer[0] == 'o')
-	{
-		return 1;
-	}
-	else { return 0; }
-
 }
 
 //Returns I which will finally be amount of exercises created
@@ -190,7 +179,8 @@ void printtemplatelist(exercice_template *templates, int nb_exercises)
 
 void menu_training(exercice_template *exercices)
 {
-	if (request_training())
+	char *question = "Voulez vous debuter l'entrainement?";
+	if (askquestion(question))
 	{
 		printtemplatelist(exercices, fill_exercises(exercices));
 	}
