@@ -41,23 +41,22 @@ void print_exercice(exercice_template *temp_exercice)
 {
 	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "a");
 
-	//TODO:Apres avoir ajouter le nouvel ENUM il faut maintenant imprimer sa valeur dans chaque IF et modifier la condition
-	if (temp_exercice->type_interval == 1)
+
+	if (temp_exercice->measure == REPETITION)
 	{
-		fprintf(ptrTemplate, "'repetition','%s',%hu,%hu,%hu,%.2f\n",	temp_exercice->nom_exercice,
-																		temp_exercice->nb_set,
-																		temp_exercice->temps_recup,
-																		temp_exercice->interval.nb_repetition,
-																		temp_exercice->weight);
-	}
-	else if (temp_exercice->type_interval == 2)
-	{
-		fprintf(ptrTemplate, "'duree','%s',%hu,%hu,%hu,%.2f\n",	temp_exercice->nom_exercice,
+		fprintf(ptrTemplate, "1,'%s',%hu,%hu,%hu,%.2f\n",		temp_exercice->nom_exercice,
 																temp_exercice->nb_set,
 																temp_exercice->temps_recup,
-																temp_exercice->interval.duree,
+																temp_exercice->quantity.nb_repetition,
 																temp_exercice->weight);
-		
+	}
+	else if (temp_exercice->measure == DUREE)
+	{
+		fprintf(ptrTemplate, "2,'%s',%hu,%hu,%hu,%.2f\n",		temp_exercice->nom_exercice,
+																temp_exercice->nb_set,
+																temp_exercice->temps_recup,
+																temp_exercice->quantity.duree,
+																temp_exercice->weight);
 	}
 	fclose(ptrTemplate);
 	
@@ -69,7 +68,7 @@ void choixInterval(exercice_template *temp_exercice)
 
 	while ((choix < 1) || (choix > 2))
 	{
-		printf("\nL'intervalle est-elle un nombre de repetitions ou une duree?\t1- Repetition\t2-Duree\n");
+		printf("\nVeuillez choisir l'unite de mesure de l'activite: \t1- Repetition\t2-Duree\n");
 		scanf("%i", &choix);
 	}
 
@@ -77,14 +76,14 @@ void choixInterval(exercice_template *temp_exercice)
 	switch (choix)
 	{
 	case 1:
-		temp_exercice->type_interval = 1;
+		temp_exercice->measure = REPETITION;
 		printf("\nEntrer le nombre de repetition: ");
-		scanf("%hu", &temp_exercice->interval.nb_repetition);
+		scanf("%hu", &temp_exercice->quantity.nb_repetition);
 		break;
 	case 2:
-		temp_exercice->type_interval = 2;
+		temp_exercice->measure = DUREE;
 		printf("\nEntrer la duree: ");
-		scanf("%hu", &temp_exercice->interval.duree);
+		scanf("%hu", &temp_exercice->quantity.duree);
 		break;
 	}
 
@@ -148,18 +147,28 @@ void createtemplate_loop()
 int fill_exercises(exercice_template *exercices)
 {
 	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "r");
-	char buffer[10];
+	short measure_type = 0;
 	//TODO: Supprimer Buffer et modifier while lorsque partie ENUM sera modifier
 
 	if (ptrTemplate == NULL)
 	{
+		//TODO:test
 		puts("Template file does not exist. Add exercises before training");
 		return 0;
 	}
 
 	int i = 0;
-	while (fscanf(ptrTemplate, "%[^,],%[^,],%hu,%hu,%hu,%5f", &buffer, exercices[i].nom_exercice, &exercices[i].nb_set, &exercices[i].temps_recup, &exercices[i].interval.duree, &exercices[i].weight) == 6)
+	while (fscanf(ptrTemplate, "%hu,%[^,],%hu,%hu,%hu,%5f", &measure_type, exercices[i].nom_exercice, &exercices[i].nb_set, &exercices[i].temps_recup, &exercices[i].quantity.duree, &exercices[i].weight) == 6)
 	{
+		if (measure_type == 1)
+		{
+			exercices[i].measure == REPETITION;
+		}
+		else if (measure_type == 2)
+		{
+			exercices[i].measure == DUREE;
+		}
+		
 
 		i++;
 	}
@@ -194,7 +203,7 @@ void menu_exercises()
 
 void menu_trainingday()
 {
-	printf("welcome to trainingday creation");
+	puts("Entered menu_trainingday()");
 }
 
 int main()

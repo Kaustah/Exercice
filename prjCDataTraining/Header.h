@@ -9,14 +9,18 @@ typedef union {
 	short nb_repetition;
 	short duree;
 
-} interval_duree;
+} activity_measure;
+
+typedef enum {
+	REPETITION, DUREE
+}type_measure;
 
 typedef struct {
 	char nom_exercice[100];
 	short nb_set;
 	short temps_recup;
-	interval_duree interval;
-	short type_interval; //TODO: Review where this is used to replace with an ENUM to specify the 2 types. Create enum
+	activity_measure quantity;
+	type_measure measure; //TODO: Review where this is used to replace with an ENUM to specify the 2 types. Create enum
 	float weight;
 
 } exercice_template;
@@ -24,7 +28,7 @@ typedef struct {
 typedef struct {
 	char nom_exercice[100];
 	short nb_set_accompli;
-	interval_duree interval[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire + ligne du dessous Code5
+	activity_measure interval[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire + ligne du dessous Code5
 	float weight[5];
 	exercice_template *template;
 
