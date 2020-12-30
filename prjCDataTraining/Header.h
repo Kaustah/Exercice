@@ -20,7 +20,7 @@ typedef struct {
 	short nb_set;
 	short temps_recup;
 	activity_measure quantity;
-	type_measure measure; //TODO: Review where this is used to replace with an ENUM to specify the 2 types. Create enum
+	type_measure measure;
 	float weight;
 
 } exercice_template;

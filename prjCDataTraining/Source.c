@@ -25,7 +25,7 @@ int menu_main()
 	int menu_option = NULL;
 
 	do {
-		puts("veuillez choisir une option.");
+		puts("\n\nVeuillez choisir une option.");
 		puts(	"\t1- Debuter entrainement!\n"
 				"\t2- Ajouter/Modifier Exercices\n"
 				"\t3- Ajouter/Modifier Journées Entrainement\n"
@@ -72,7 +72,6 @@ void choixInterval(exercice_template *temp_exercice)
 		scanf("%i", &choix);
 	}
 
-	//Type_interval 1 == Repetitions, Type_interval 2== Duree
 	switch (choix)
 	{
 	case 1:
@@ -144,11 +143,10 @@ void createtemplate_loop()
 }
 
 //Returns I which will finally be amount of exercises created
-int fill_exercises(exercice_template *exercices)
+int read_exercises(exercice_template *exercices)
 {
 	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "r");
 	short measure_type = 0;
-	//TODO: Supprimer Buffer et modifier while lorsque partie ENUM sera modifier
 
 	if (ptrTemplate == NULL)
 	{
@@ -183,7 +181,6 @@ void printtemplatelist(exercice_template *templates, int nb_exercises)
 		//Print exercises
 		printf("%i- %s\n", i+1, templates[i].nom_exercice);
 	}
-	
 }
 
 void menu_training(exercice_template *exercices)
@@ -191,7 +188,7 @@ void menu_training(exercice_template *exercices)
 	char *question = "Voulez vous debuter l'entrainement?";
 	if (askquestion(question))
 	{
-		printtemplatelist(exercices, fill_exercises(exercices));
+		printtemplatelist(exercices, read_exercises(exercices));
 	}
 	else { puts("I don't want to train!"); }
 }
