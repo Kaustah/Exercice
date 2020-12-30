@@ -150,7 +150,6 @@ int read_exercises(exercice_template *exercices)
 
 	if (ptrTemplate == NULL)
 	{
-		//TODO:test
 		puts("Template file does not exist. Add exercises before training");
 		return 0;
 	}
