@@ -35,13 +35,17 @@ typedef struct {
 } exercice_sheet;
 
 typedef struct {
+	char nom[50];
+	exercice_sheet sheet_exercice[10];//TODO: Code5
+} journee_template;
+
+typedef struct {
 	struct tm *tm;
 	time_t starttime;//TODO: Creer fonction afin de retourner le format Date Heure en String pour insertion SQL
 	time_t endtime;
-	exercice_template type_exercice[10];	//TODO: Code5
-	exercice_sheet sheet_exercice[10];		//TODO: Code5
-
-} journee_entrainement;
+	float weight;
+	journee_template exercise_list;
+} journee_training;
 
 char* concat(const char *s1, const char *s2)
 {
@@ -55,16 +59,16 @@ char* concat(const char *s1, const char *s2)
 //Functions
 void now(char *time_string);
 int menu_main();
-void print_exercice(exercice_template *temp_exercice);
+void fprint_exercice(exercice_template *temp_exercice);
 void choixInterval(exercice_template *temp_exercice);
 void cleanNewline(char *line);
 void remplir_template();
 int askquestion(char *question);
 void createtemplate_loop();
-int fill_exercises(exercice_template *exercices);
+int read_exercises(exercice_template *exercices);
 void printtemplatelist(exercice_template *templates, int nb_exercises);
 void menu_training(exercice_template *exercices);
-void menu_exercises();
+void menu_exercises(exercice_template *exercices);
 void menu_trainingday();
 
 
