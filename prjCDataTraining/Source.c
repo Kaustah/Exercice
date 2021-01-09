@@ -6,6 +6,7 @@
 #include "Header.h"
 #define MAXEXERCICE 20
 
+
 //Receives ptrChar and modifies it as: (SQL format) "2020-12-25" 
 void now(char *time_string)
 {
@@ -37,8 +38,9 @@ int menu_main()
 
 }
 
-void print_exercice(exercice_template *temp_exercice)
+void fprint_exercice(exercice_template *temp_exercice)
 {
+
 	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "a");
 
 
@@ -62,6 +64,7 @@ void print_exercice(exercice_template *temp_exercice)
 	
 }
 
+//Propose 2 choix d'Interval et enregistre la donnee
 void choixInterval(exercice_template *temp_exercice)
 {
 	int choix = 0;
@@ -110,7 +113,7 @@ void remplir_template()
 	scanf("%f", &temp_exercice.weight);
 
 
-	print_exercice(&temp_exercice);
+	fprint_exercice(&temp_exercice);
 }
 //Returns answer of the question, Y=true
 int askquestion(char *question)
@@ -192,9 +195,68 @@ void menu_training(exercice_template *exercices)
 	else { puts("I don't want to train!"); }
 }
 
-void menu_exercises()
+void print_exercise(exercice_template *exercise)
 {
-	createtemplate_loop();
+	//Imprimer les infos de exercise
+	printf("\n\n\tDetails for exercise: %s", exercise->nom_exercice);
+	printf("\n\tAmount of sets: %hu", exercise->nb_set);
+	printf("\n\tTime between sets (seconds): %hu", exercise->temps_recup);
+	if (exercise->measure == REPETITION)
+	{
+		printf("\n\tNumber of repetitions: %hu", exercise->quantity.nb_repetition);
+	}
+	else if (exercise->measure == DUREE)
+	{
+		printf("\n\tDuration of exercise (seconds): %hu", exercise->quantity.duree);
+	}
+	printf("\n\tWeight (Pounds): %3.2f", exercise->weight);
+
+}
+
+//1- Choisir exercice a modifier 2- print exercice 
+//3- Creer nouvelle struct a remplir avec nouveaux elements 4- Print nouvelle struct
+//5- Confirmer changement
+void modifyExercise(exercice_template *exercices)
+{
+	int exercise_nb = 0;
+	puts("Enter the exercise number to modify: ");
+	while (exercise_nb < 1 || exercise_nb > MAXEXERCICE)
+	{
+		scanf("%i", &exercise_nb);
+	}
+	exercise_nb--;
+	print_exercise((exercices+exercise_nb));
+
+
+}
+
+void menu_exercises(exercice_template *exercices)
+{
+	//TODO: Current work
+	int menu_option = NULL;
+
+	do {
+		puts("\n\nVeuillez choisir une option.");
+		puts(	"\t1- Ajouter Exercice\n"
+				"\t2- Modifier Exercice\n"
+				"\t0- Quitter\n\n");
+		scanf("%i", &menu_option);
+	} while (menu_option < 0 || menu_option > 2);
+
+	switch (menu_option)
+	{
+	case 1:
+		createtemplate_loop();
+		break;
+	case 2:
+		//int read_exercises();
+		printtemplatelist(exercices, read_exercises(exercices));
+		modifyExercise(exercices);
+		break;
+	default:
+		break;
+	}
+
 }
 
 void menu_trainingday()
@@ -217,7 +279,7 @@ int main()
 				menu_training(exercices);
 				break;
 			case 2:
-				menu_exercises();
+				menu_exercises(exercices);
 				break;
 			case 3:
 				menu_trainingday();
@@ -225,6 +287,8 @@ int main()
 			case 0:
 				puts("Fermeture application!");
 				break;
+			default:
+				puts("Option invalide\n");
 		}
 	} while (menu_option != 0);
 
