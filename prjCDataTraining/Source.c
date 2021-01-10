@@ -6,6 +6,12 @@
 #include "Header.h"
 #define MAXEXERCICE 20
 
+/* Git Test 1 Kamal
+   Testing Braching out and merging
+   Test 1 : in Progress..
+*/
+
+
 //Receives ptrChar and modifies it as: (SQL format) "2020-12-25" 
 void now(char *time_string)
 {
