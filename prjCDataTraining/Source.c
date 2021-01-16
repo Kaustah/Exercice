@@ -38,15 +38,12 @@ int menu_main()
 
 }
 
-void fprint_exercice(exercice_template *temp_exercice)
+void fprint_exercice(exercice_template *temp_exercice, FILE *ptrTemplate)
 {
-
-	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "a");
-
 
 	if (temp_exercice->measure == REPETITION)
 	{
-		fprintf(ptrTemplate, "1,'%s',%hu,%hu,%hu,%.2f\n",		temp_exercice->nom_exercice,
+		fprintf(ptrTemplate, "1,%s,%hu,%hu,%hu,%.2f\n",			temp_exercice->nom_exercice,
 																temp_exercice->nb_set,
 																temp_exercice->temps_recup,
 																temp_exercice->quantity.nb_repetition,
@@ -54,14 +51,12 @@ void fprint_exercice(exercice_template *temp_exercice)
 	}
 	else if (temp_exercice->measure == DUREE)
 	{
-		fprintf(ptrTemplate, "2,'%s',%hu,%hu,%hu,%.2f\n",		temp_exercice->nom_exercice,
+		fprintf(ptrTemplate, "2,%s,%hu,%hu,%hu,%.2f\n",			temp_exercice->nom_exercice,
 																temp_exercice->nb_set,
 																temp_exercice->temps_recup,
 																temp_exercice->quantity.duree,
 																temp_exercice->weight);
-	}
-	fclose(ptrTemplate);
-	
+	}	
 }
 
 //Propose 2 choix d'Interval et enregistre la donnee
@@ -97,9 +92,10 @@ void cleanNewline(char *line)
 	line[i - 1] = '\0';
 }
 
-void remplir_template()
+exercice_template remplir_template()
 {
 	exercice_template temp_exercice;
+	exercice_template_default(&temp_exercice);
 
 	//TODO: Retirer scanf non necessaire, modifier vers fgets ou autre
 	printf("\nQuel est le nom de votre exercice (100char max): ");
@@ -112,9 +108,9 @@ void remplir_template()
 	printf("\nEntrer les poids a utiliser, 0 si aucun. ");
 	scanf("%f", &temp_exercice.weight);
 
-
-	fprint_exercice(&temp_exercice);
+	return temp_exercice;
 }
+
 //Returns answer of the question, Y=true
 int askquestion(char *question)
 {
@@ -135,18 +131,21 @@ int askquestion(char *question)
 
 void createtemplate_loop()
 {
-	
+	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "a");
+	exercice_template temp_template;
 	char answer[1];
 	char *question = "Voulez-vous ajouter un exercice?";
 
 	while (askquestion(question))
 	{
-		remplir_template();
+		temp_template = remplir_template();
+		fprint_exercice(&temp_template, ptrTemplate);
 	} 
+	fclose(ptrTemplate);
 }
 
 //Returns I which will finally be amount of exercises created
-int read_exercises(exercice_template *exercices)
+void read_exercises(exercice_template *exercices)
 {
 	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "r");
 	short measure_type = 0;
@@ -154,7 +153,6 @@ int read_exercises(exercice_template *exercices)
 	if (ptrTemplate == NULL)
 	{
 		puts("Template file does not exist. Add exercises before training");
-		return 0;
 	}
 
 	int i = 0;
@@ -172,30 +170,31 @@ int read_exercises(exercice_template *exercices)
 
 		i++;
 	}
-	
-	return i++;
 }
 
-void printtemplatelist(exercice_template *templates, int nb_exercises)
+void printtemplatelist(exercice_template *templates)
 {
-	for (int i = 0; i < nb_exercises; i++)
+	int i = 0;
+	while (templates[i].nom_exercice[0] != NULL)
 	{
 		//Print exercises
-		printf("%i- %s\n", i+1, templates[i].nom_exercice);
+		printf("%i- %s\n", i + 1, templates[i].nom_exercice);
+		i++;
 	}
 }
 
 void menu_training(exercice_template *exercices)
 {
-	char *question = "Voulez vous debuter l'entrainement?";
+	char *question = "\nVoulez vous debuter l'entrainement?";
 	if (askquestion(question))
 	{
-		printtemplatelist(exercices, read_exercises(exercices));
+		read_exercises(exercices);
+		printtemplatelist(exercices);
 	}
-	else { puts("I don't want to train!"); }
+	else { puts("\nI don't want to train!"); }
 }
 
-void print_exercise(exercice_template *exercise)
+void printExercise(exercice_template *exercise)
 {
 	//Imprimer les infos de exercise
 	printf("\n\n\tDetails for exercise: %s", exercise->nom_exercice);
@@ -213,20 +212,47 @@ void print_exercise(exercice_template *exercise)
 
 }
 
+void rewrite_Exercise(exercice_template *exercices)
+{
+	FILE *ptrTemplate = fopen("Templates_Exercice.csv", "w");
+	int i = 0;
+	
+	while (exercices[i].nom_exercice[0] != NULL)
+	{
+		fprint_exercice((exercices + i), ptrTemplate);
+		i++;
+	}
+}
+
 //1- Choisir exercice a modifier 2- print exercice 
 //3- Creer nouvelle struct a remplir avec nouveaux elements 4- Print nouvelle struct
-//5- Confirmer changement
+//5- Confirmer changement 
+//TODO: 6- Supprimer la ligne dans csv
 void modifyExercise(exercice_template *exercices)
 {
+	exercice_template temp_template;
+	char whitespace[5];
+
 	int exercise_nb = 0;
-	puts("Enter the exercise number to modify: ");
+	puts("\nEnter the exercise number to modify: ");
 	while (exercise_nb < 1 || exercise_nb > MAXEXERCICE)
 	{
 		scanf("%i", &exercise_nb);
+		fgets(whitespace, 5, stdin);
+		if (exercise_nb == 0) { return; }
 	}
-	exercise_nb--;
-	print_exercise((exercices+exercise_nb));
 
+	exercise_nb--;
+	printExercise(exercices + exercise_nb);
+	temp_template = remplir_template();
+	printExercise(&temp_template);
+	if (askquestion("Are you certain to replace these values?"))
+	{
+		exercices[exercise_nb] = temp_template;
+	}
+
+	rewrite_Exercise(exercices);
+	
 
 }
 
@@ -250,7 +276,8 @@ void menu_exercises(exercice_template *exercices)
 		break;
 	case 2:
 		//int read_exercises();
-		printtemplatelist(exercices, read_exercises(exercices));
+		read_exercises(exercices);
+		printtemplatelist(exercices);
 		modifyExercise(exercices);
 		break;
 	default:
@@ -264,11 +291,22 @@ void menu_trainingday()
 	puts("Entered menu_trainingday()");
 }
 
+void setup(exercice_template *exercices)
+{
+	//Initialize all exercice_template to initial value (to be removed after Code5)
+	for (int i = 0; i < MAXEXERCICE; i++)
+	{
+		exercice_template_default(exercices + i);
+	}
+}
+
 int main()
 {
 	exercice_template exercices[MAXEXERCICE];
 	char current_time[50];
 	
+	setup(&exercices);
+
 	//Main Menu
 	int menu_option;
 	do

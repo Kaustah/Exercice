@@ -25,6 +25,16 @@ typedef struct {
 
 } exercice_template;
 
+//Struct default values
+exercice_template exercice_template_default(exercice_template *exercice)
+{
+	exercice->nom_exercice[0] = NULL;
+	exercice->nb_set = 0;
+	exercice->temps_recup = 0;
+	exercice->weight = 0;
+	exercice->measure = 0;
+}
+
 typedef struct {
 	char nom_exercice[100];
 	short nb_set_accompli;
@@ -56,17 +66,17 @@ char* concat(const char *s1, const char *s2)
 	return result;
 }
 
-//Functions
+//Function signatures
 void now(char *time_string);
 int menu_main();
-void fprint_exercice(exercice_template *temp_exercice);
+void fprint_exercice(exercice_template *temp_exercice, FILE *ptrTemplate);
 void choixInterval(exercice_template *temp_exercice);
 void cleanNewline(char *line);
-void remplir_template();
+exercice_template remplir_template();
 int askquestion(char *question);
 void createtemplate_loop();
-int read_exercises(exercice_template *exercices);
-void printtemplatelist(exercice_template *templates, int nb_exercises);
+void read_exercises(exercice_template *exercices);
+void printtemplatelist(exercice_template *templates);
 void menu_training(exercice_template *exercices);
 void menu_exercises(exercice_template *exercices);
 void menu_trainingday();
