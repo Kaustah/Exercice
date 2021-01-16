@@ -9,35 +9,53 @@ typedef union {
 	short nb_repetition;
 	short duree;
 
-} interval_duree;
+} activity_measure;
+
+typedef enum {
+	REPETITION, DUREE
+}type_measure;
 
 typedef struct {
 	char nom_exercice[100];
 	short nb_set;
 	short temps_recup;
-	interval_duree interval;
-	short type_interval; //TODO: Review where this is used to replace with an ENUM to specify the 2 types. Create enum
+	activity_measure quantity;
+	type_measure measure;
 	float weight;
 
 } exercice_template;
 
+//Struct default values
+exercice_template exercice_template_default(exercice_template *exercice)
+{
+	exercice->nom_exercice[0] = NULL;
+	exercice->nb_set = 0;
+	exercice->temps_recup = 0;
+	exercice->weight = 0;
+	exercice->measure = 0;
+}
+
 typedef struct {
 	char nom_exercice[100];
 	short nb_set_accompli;
-	interval_duree interval[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire + ligne du dessous Code5
+	activity_measure interval[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire + ligne du dessous Code5
 	float weight[5];
 	exercice_template *template;
 
 } exercice_sheet;
 
 typedef struct {
+	char nom[50];
+	exercice_sheet sheet_exercice[10];//TODO: Code5
+} journee_template;
+
+typedef struct {
 	struct tm *tm;
 	time_t starttime;//TODO: Creer fonction afin de retourner le format Date Heure en String pour insertion SQL
 	time_t endtime;
-	exercice_template type_exercice[10];	//TODO: Code5
-	exercice_sheet sheet_exercice[10];		//TODO: Code5
-
-} journee_entrainement;
+	float weight;
+	journee_template exercise_list;
+} journee_training;
 
 char* concat(const char *s1, const char *s2)
 {
@@ -48,12 +66,19 @@ char* concat(const char *s1, const char *s2)
 	return result;
 }
 
-//Functions
+//Function signatures
 void now(char *time_string);
-void welcome_screen(char *current_time);
-void print_exercice(exercice_template *temp_exercice);
+int menu_main();
+void fprint_exercice(exercice_template *temp_exercice, FILE *ptrTemplate);
 void choixInterval(exercice_template *temp_exercice);
 void cleanNewline(char *line);
-void remplir_template();
-void createtemplate_loop(char *buffer, char *whitespace);
+exercice_template remplir_template();
+int askquestion(char *question);
+void createtemplate_loop();
+void read_exercises(exercice_template *exercices);
+void printtemplatelist(exercice_template *templates);
+void menu_training(exercice_template *exercices);
+void menu_exercises(exercice_template *exercices);
+void menu_trainingday();
+
 
