@@ -25,8 +25,8 @@ typedef struct {
 
 } exercice_template;
 
-//Struct default values
-exercice_template exercice_template_default(exercice_template *exercice)
+//exercice_template default values
+void exercice_template_default(exercice_template *exercice)
 {
 	exercice->nom_exercice[0] = NULL;
 	exercice->nb_set = 0;
@@ -36,26 +36,24 @@ exercice_template exercice_template_default(exercice_template *exercice)
 }
 
 typedef struct {
-	char nom_exercice[100];
 	short nb_set_accompli;
-	activity_measure interval[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire + ligne du dessous Code5
+	activity_measure quantity[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire Code5
 	float weight[5];
 	exercice_template *template;
-
 } exercice_sheet;
 
 typedef struct {
-	char nom[50];
-	exercice_sheet sheet_exercice[10];//TODO: Code5
-} journee_template;
+	char name[50];
+	exercice_sheet exercice_sheet[10];//TODO: Code5
+} training_program;
 
 typedef struct {
 	struct tm *tm;
 	time_t starttime;//TODO: Creer fonction afin de retourner le format Date Heure en String pour insertion SQL
 	time_t endtime;
 	float weight;
-	journee_template exercise_list;
-} journee_training;
+	training_program exercise_list;
+} training_day;
 
 char* concat(const char *s1, const char *s2)
 {

@@ -35,7 +35,7 @@ int menu_main()
 	} while (menu_option <0 || menu_option > 3);
 
 	return menu_option;
-
+	//TODO: Fix infinite loop on entering string
 }
 
 void fprint_exercice(exercice_template *temp_exercice, FILE *ptrTemplate)
@@ -118,7 +118,7 @@ int askquestion(char *question)
 	char answer = "";
 
 	printf("\n%s O/N: ",question);
-	scanf(" %c", &answer);
+	scanf(" %c", &answer); //TODO: Test modifier scanf pour fgets et retirer fgets 
 	fgets(whitespace, 5, stdin);
 	
 	if (answer == 'O' || answer == 'o')
@@ -189,7 +189,7 @@ void menu_training(exercice_template *exercices)
 	if (askquestion(question))
 	{
 		read_exercises(exercices);
-		printtemplatelist(exercices);
+		printtemplatelist(exercices);//TODO: StartTraining()
 	}
 	else { puts("\nI don't want to train!"); }
 }
@@ -224,10 +224,6 @@ void rewrite_Exercise(exercice_template *exercices)
 	}
 }
 
-//1- Choisir exercice a modifier 2- print exercice 
-//3- Creer nouvelle struct a remplir avec nouveaux elements 4- Print nouvelle struct
-//5- Confirmer changement 
-//TODO: 6- Supprimer la ligne dans csv
 void modifyExercise(exercice_template *exercices)
 {
 	exercice_template temp_template;
@@ -258,7 +254,6 @@ void modifyExercise(exercice_template *exercices)
 
 void menu_exercises(exercice_template *exercices)
 {
-	//TODO: Current work
 	int menu_option = NULL;
 
 	do {
@@ -279,7 +274,7 @@ void menu_exercises(exercice_template *exercices)
 		read_exercises(exercices);
 		printtemplatelist(exercices);
 		modifyExercise(exercices);
-		break;
+		break;;
 	default:
 		break;
 	}
@@ -288,7 +283,27 @@ void menu_exercises(exercice_template *exercices)
 
 void menu_trainingday()
 {
-	puts("Entered menu_trainingday()");
+	int menu_option = NULL;
+
+	do {
+		puts("\n\nVeuillez choisir une option.");
+		puts("\t1- Ajouter Journee Entrainement\n"
+			"\t2- Modifier Journee Entrainement\n"
+			"\t0- Quitter\n\n");
+		scanf("%i", &menu_option);
+	} while (menu_option < 0 || menu_option > 2);
+
+	switch (menu_option)
+	{
+	case 1:
+		puts("Ajout de journee");
+		break;
+	case 2:
+		puts("Modification de journee");
+		break;
+	default:
+		break;
+	}
 }
 
 void setup(exercice_template *exercices)
