@@ -1,2 +1,3 @@
 .vs/
-prjCDataTraining/prjCDataTraining.vcxproj
+*prjCDataTraining.vcxproj
+*.log
