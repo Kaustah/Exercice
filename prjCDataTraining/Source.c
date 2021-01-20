@@ -237,6 +237,8 @@ void rewrite_Exercise(exercice_template *exercices)
 		fprint_exercice((exercices + i), ptrTemplate);
 		i++;
 	}
+
+	fclose(ptrTemplate);
 }
 
 void modifyExercise(exercice_template *exercices)
