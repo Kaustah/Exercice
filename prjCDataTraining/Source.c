@@ -132,6 +132,7 @@ int askquestion(char *question)
 
 }
 
+
 short nextExerciceID(exercice_template *exercices)
 {
 	int i = 0;

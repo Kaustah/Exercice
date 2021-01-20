@@ -1,0 +1,20 @@
+﻿  Source.c
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\header.h(32): warning C4047: '=': 'short' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\header.h(33): warning C4047: '=': 'char' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(26): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(105): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[100]'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(105): warning C4024: 'cleanNewline': different types for formal and actual parameter 1
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(121): warning C4047: 'initializing': 'char' differs in levels of indirection from 'char [1]'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(140): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(149): warning C4028: formal parameter 1 different from declaration
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(152): warning C4101: 'answer': unreferenced local variable
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(180): warning C4553: '==': result of expression not used; did you intend '='?
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(184): warning C4553: '==': result of expression not used; did you intend '='?
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(195): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(236): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(274): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(301): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(341): warning C4047: 'function': 'exercice_template *' differs in levels of indirection from 'exercice_template (*)[20]'
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(341): warning C4024: 'setup': different types for formal and actual parameter 1
+c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(339): warning C4101: 'current_time': unreferenced local variable
+  prjCDataTraining.vcxproj -> C:\Users\Kaustah\Desktop\Cours\exercice\Debug\prjCDataTraining.exe
