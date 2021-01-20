@@ -131,7 +131,11 @@ int askquestion(char *question)
 	else { return 0; }
 
 }
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="exercices"></param>
+/// <returns></returns>
 
 short nextExerciceID(exercice_template *exercices)
 {
