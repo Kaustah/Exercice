@@ -42,7 +42,7 @@ typedef struct {
 	short exercise_count;
 	char name[50];
 	exercice_template *templates[10];//TODO: Code5
-} training_program;
+} training_program;	
 
 void training_program_default(training_program *program)
 {
