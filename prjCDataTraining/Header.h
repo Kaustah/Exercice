@@ -38,9 +38,18 @@ void exercice_template_default(exercice_template *exercice)
 }
 
 typedef struct {
+	short id;
+	short exercise_count;
 	char name[50];
 	exercice_template *templates[10];//TODO: Code5
 } training_program;
+
+void training_program_default(training_program *program)
+{
+	program->id = NULL;
+	program->name[0] = NULL;
+	program->templates[0] = NULL;
+}
 
 typedef struct {
 	short nb_set_accompli;
