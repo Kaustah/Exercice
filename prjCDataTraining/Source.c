@@ -132,7 +132,6 @@ int askquestion(char *question)
 
 }
 
-
 short nextExerciceID(exercice_template *exercices)
 {
 	int i = 0;
@@ -296,7 +295,49 @@ void menu_exercises(exercice_template *exercices)
 
 }
 
-void menu_trainingday()
+exerciseSelection()
+
+training_program fill_program(exercice_template *exercices)
+{
+	training_program temp_program;
+	training_program_default(&temp_program);
+
+
+	printf("\nQuel est le nom du programme d'entrainement(50char max): ");
+	fgets(temp_program.name, 50, stdin);	/*Retirer '\n'*/ cleanNewline(&temp_program.name);
+	printf("\nEntrer le nombre d'exercice total de ce programme: ");
+	scanf("%hu", &temp_program.exercise_count);
+	printtemplatelist(exercices);
+	puts("\nVeuillez entrer le numéro des exercices de ce programme séparés par une ',' dans l'ordre desire: Ex: 2,6,4,9\n")
+	exerciseSelection(exercices, temp_program.exercise_count)
+		
+		printf("\nCombien de temps de recuperation entre chaque set (secondes): ");
+	scanf("%hu", &temp_exercice.temps_recup);
+	choixInterval(&temp_exercice); //Propose 2 choix d'Interval et enregistre la donnee
+	printf("\nEntrer les poids a utiliser, 0 si aucun. ");
+	scanf("%f", &temp_exercice.weight);
+
+	return temp_program;
+}
+
+void addTrainingDay(training_program *programs, exercice_template *exercices)
+{
+	//TODO: Current Work 01/20
+	FILE *ptrProgram = fopen("Training_Program.csv", "a"); //a créer
+	training_program temp_program;
+	char answer[1];
+	char *question = "Voulez-vous ajouter un programme d'entrainement?";
+
+	while (askquestion(question))
+	{
+		temp_program = fill_program(exercices);
+		temp_program.id = nextExerciceID(exercices); //Rethink
+		fprint_program(&temp_program, ptrProgram);
+	}
+	fclose(ptrProgram);
+}
+
+void menu_trainingday(training_program *programs)
 {
 	int menu_option = NULL;
 
@@ -311,6 +352,7 @@ void menu_trainingday()
 	switch (menu_option)
 	{
 	case 1:
+		addTrainingDay(programs);
 		puts("Ajout de journee");
 		break;
 	case 2:
@@ -336,6 +378,7 @@ void setup(exercice_template *exercices)
 int main()
 {
 	exercice_template exercices[MAXEXERCICE];
+	training_program programs[MAXEXERCICE];
 	char current_time[50];
 	
 	setup(&exercices);
@@ -353,7 +396,7 @@ int main()
 				menu_exercises(exercices);
 				break;
 			case 3:
-				menu_trainingday();
+				menu_trainingday(programs);
 				break;
 			case 0:
 				puts("Fermeture application!");
