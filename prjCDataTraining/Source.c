@@ -295,23 +295,37 @@ void menu_exercises(exercice_template *exercices)
 
 }
 
-exerciseSelection()
+int FindExerciceID(exercice_template *exercices, int index)
+{
+	return exercices[index].id;
+}
 
 training_program fill_program(exercice_template *exercices)
 {
 	training_program temp_program;
 	training_program_default(&temp_program);
-
+	int exercise_nb;
 
 	printf("\nQuel est le nom du programme d'entrainement(50char max): ");
 	fgets(temp_program.name, 50, stdin);	/*Retirer '\n'*/ cleanNewline(&temp_program.name);
 	printf("\nEntrer le nombre d'exercice total de ce programme: ");
-	scanf("%hu", &temp_program.exercise_count);
+	do {
+		scanf("%hu", &temp_program.exercise_count);
+	} while (temp_program.exercise_count < 1 || temp_program.exercise_count > 10);
 	printtemplatelist(exercices);
-	puts("\nVeuillez entrer le numéro des exercices de ce programme séparés par une ',' dans l'ordre desire: Ex: 2,6,4,9\n")
-	exerciseSelection(exercices, temp_program.exercise_count)
+	
+	for (int i = 0; i < temp_program.exercise_count-1; i++)
+	{
+		fprint("Veuillez entrer l'exercice %i", (i+1));
+		do
+		{
+			scanf("%i", &exercise_nb);
+		} while (exercise_nb < 1 || exercise_nb > MAXEXERCICE);
 		
-		printf("\nCombien de temps de recuperation entre chaque set (secondes): ");
+	}
+
+
+	printf("\nCombien de temps de recuperation entre chaque set (secondes): ");
 	scanf("%hu", &temp_exercice.temps_recup);
 	choixInterval(&temp_exercice); //Propose 2 choix d'Interval et enregistre la donnee
 	printf("\nEntrer les poids a utiliser, 0 si aucun. ");
@@ -337,7 +351,7 @@ void addTrainingDay(training_program *programs, exercice_template *exercices)
 	fclose(ptrProgram);
 }
 
-void menu_trainingday(training_program *programs)
+void menu_trainingday(training_program *programs, exercice_template *exercices)
 {
 	int menu_option = NULL;
 
@@ -352,7 +366,7 @@ void menu_trainingday(training_program *programs)
 	switch (menu_option)
 	{
 	case 1:
-		addTrainingDay(programs);
+		addTrainingDay(programs, exercices);
 		puts("Ajout de journee");
 		break;
 	case 2:
@@ -396,7 +410,7 @@ int main()
 				menu_exercises(exercices);
 				break;
 			case 3:
-				menu_trainingday(programs);
+				menu_trainingday(programs, exercices);
 				break;
 			case 0:
 				puts("Fermeture application!");
