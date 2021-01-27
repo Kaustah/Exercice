@@ -276,9 +276,10 @@ void menu_exercises(exercice_template *exercices)
 		puts("\n\nVeuillez choisir une option.");
 		puts(	"\t1- Ajouter Exercice\n"
 				"\t2- Modifier Exercice\n"
+				"\t3- Supprimer Exercice\n"
 				"\t0- Quitter\n\n");
 		scanf("%i", &menu_option);
-	} while (menu_option < 0 || menu_option > 2);
+	} while (menu_option < 0 || menu_option > 3); //TODO: create delete exercise (start with list then write un DB)
 
 	switch (menu_option)
 	{
