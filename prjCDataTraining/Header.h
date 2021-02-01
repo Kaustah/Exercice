@@ -89,5 +89,6 @@ void printtemplatelist(exercice_template *templates);
 void menu_training(exercice_template *exercices);
 void menu_exercises(exercice_template *exercices);
 void menu_trainingday();
-
+void printExercise(exercice_template* exercise);
+void deleteExercise(exercice_template* exercise);
 

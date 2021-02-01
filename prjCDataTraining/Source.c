@@ -6,6 +6,78 @@
 #include "Header.h"
 #define MAXEXERCICE 20
 
+//Update CSV after deleting exercises (use list to update CSV)
+
+int updateCSV(exercice_template* exercise, char fileName[151])
+{
+	FILE* newFile = fopen("tempFile.csv", "w");
+	int i = 0;
+
+	while ((exercise + i)->id != NULL)
+	{
+		fprint_exercice(exercise + i, newFile);
+		i++;
+	}
+
+	fclose(newFile);
+	remove(fileName);
+	rename("tempFile.csv", fileName);
+
+	return 1; //TODO add failsafe and return 0 when file doesn't open
+}
+
+//Delete exercise from the list then call function to delete exercise from CSV
+
+void deleteExercise(exercice_template * exercise)
+{
+	int choice;
+	int index = 0; // need differnet index for tempList (compteur)
+
+	puts("\n\nEnter the number of the exercise to delete: ");
+	scanf("%i", &choice);
+	choice--;
+
+	printExercise(exercise + choice);
+
+	if (askquestion("\nAre you sure you want to delete this exercise? "))
+	{
+		if (choice < MAXEXERCICE && exercise[choice].id != NULL)
+		{
+			exercice_template tempList[MAXEXERCICE];
+
+			for (int i = 0; i < MAXEXERCICE; i++)
+			{
+				exercice_template_default(tempList + i);
+			}
+
+			for (int i = 0; i < MAXEXERCICE; i++)
+			{
+				if (i != choice)
+				{
+					tempList[index] = exercise[i];
+					index++;
+				}
+			}
+
+			exercise = tempList;
+			puts("\nNew exercise list... \n");
+
+			if (updateCSV(exercise, "Templates_Exercice.csv"))
+			{
+				printtemplatelist(exercise);
+			}
+			else
+			{
+				puts("\n\tERROR - Something went wrong...");
+			}
+
+		}
+		else
+		{
+			puts("\nError! Cannot find exercise!\n");
+		}
+	}
+}
 
 //Receives ptrChar and modifies it as: (SQL format) "2020-12-25" 
 void now(char *time_string)
@@ -186,22 +258,25 @@ void read_exercises(exercice_template *exercices)
 
 		i++;
 	}
+	fclose(ptrTemplate);
 }
 
 void printtemplatelist(exercice_template *templates)
 {
 	int i = 0;
+	puts("Exercices:\n");
+
 	while (templates[i].nom_exercice[0] != NULL)
 	{
 		//Print exercises
-		printf("%i- %s\n", i + 1, templates[i].nom_exercice);
+		printf("\t%i- %s\n", i + 1, templates[i].nom_exercice);
 		i++;
 	}
 }
 
 void menu_training(exercice_template *exercices)
 {
-	char *question = "\nVoulez vous debuter l'entrainement?";
+	char *question = "\nVoulez vous debuter l'entrainement ?";
 	if (askquestion(question))
 	{
 		printtemplatelist(exercices);//TODO: StartTraining()
@@ -237,6 +312,8 @@ void rewrite_Exercise(exercice_template *exercices)
 		fprint_exercice((exercices + i), ptrTemplate);
 		i++;
 	}
+
+	fclose(ptrTemplate);
 }
 
 void modifyExercise(exercice_template *exercices)
@@ -289,7 +366,11 @@ void menu_exercises(exercice_template *exercices)
 	case 2:
 		printtemplatelist(exercices);
 		modifyExercise(exercices);
-		break;;
+		break;
+	case 3:
+		printtemplatelist(exercices);
+		deleteExercise(exercices);
+		break;
 	default:
 		break;
 	}
@@ -317,20 +398,13 @@ training_program fill_program(exercice_template *exercices)
 	
 	for (int i = 0; i < temp_program.exercise_count-1; i++)
 	{
-		fprint("Veuillez entrer l'exercice %i", (i+1));
+		printf("Veuillez entrer l'exercice %i", (i+1));
 		do
 		{
 			scanf("%i", &exercise_nb);
 		} while (exercise_nb < 1 || exercise_nb > MAXEXERCICE);
 		
 	}
-
-
-	printf("\nCombien de temps de recuperation entre chaque set (secondes): ");
-	scanf("%hu", &temp_exercice.temps_recup);
-	choixInterval(&temp_exercice); //Propose 2 choix d'Interval et enregistre la donnee
-	printf("\nEntrer les poids a utiliser, 0 si aucun. ");
-	scanf("%f", &temp_exercice.weight);
 
 	return temp_program;
 }
@@ -347,7 +421,8 @@ void addTrainingDay(training_program *programs, exercice_template *exercices)
 	{
 		temp_program = fill_program(exercices);
 		temp_program.id = nextExerciceID(exercices); //Rethink
-		fprint_program(&temp_program, ptrProgram);
+		// fprint_program(&temp_program, ptrProgram); 
+		// TODO: Define function fprint_program
 	}
 	fclose(ptrProgram);
 }
