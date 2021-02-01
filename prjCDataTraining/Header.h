@@ -9,35 +9,62 @@ typedef union {
 	short nb_repetition;
 	short duree;
 
-} interval_duree;
+} activity_measure;
+
+typedef enum {
+	REPETITION, DUREE
+}type_measure;
 
 typedef struct {
+	short id; //TODO: Must add an ID, Update Adding exercice, Read_exercise (update index)
 	char nom_exercice[100];
 	short nb_set;
 	short temps_recup;
-	interval_duree interval;
-	short type_interval; //TODO: Review where this is used to replace with an ENUM to specify the 2 types. Create enum
+	activity_measure quantity;
+	type_measure measure;
 	float weight;
 
 } exercice_template;
 
-typedef struct {
-	char nom_exercice[100];
-	short nb_set_accompli;
-	interval_duree interval[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire + ligne du dessous Code5
-	float weight[5];
-	exercice_template *template;
+//exercice_template default values
+void exercice_template_default(exercice_template *exercice)
+{
+	exercice->id = NULL;
+	exercice->nom_exercice[0] = NULL;
+	exercice->nb_set = 0;
+	exercice->temps_recup = 0;
+	exercice->weight = 0;
+	exercice->measure = 0;
+}
 
+typedef struct {
+	short id;
+	short exercise_count;
+	char name[50];
+	exercice_template *templates[10];//TODO: Code5
+} training_program;	
+
+void training_program_default(training_program *program)
+{
+	program->id = NULL;
+	program->name[0] = NULL;
+	program->templates[0] = NULL;
+}
+
+typedef struct {
+	short nb_set_accompli;
+	activity_measure quantity[5]; //TODO: Voir Malloc pour reduire l'utilisation de memoire Code5
+	float weight[5];
+	training_program *program;
 } exercice_sheet;
 
 typedef struct {
 	struct tm *tm;
 	time_t starttime;//TODO: Creer fonction afin de retourner le format Date Heure en String pour insertion SQL
 	time_t endtime;
-	exercice_template type_exercice[10];	//TODO: Code5
-	exercice_sheet sheet_exercice[10];		//TODO: Code5
-
-} journee_entrainement;
+	float weight;
+	training_program exercise_list;
+} training_day;
 
 char* concat(const char *s1, const char *s2)
 {
@@ -48,12 +75,20 @@ char* concat(const char *s1, const char *s2)
 	return result;
 }
 
-//Functions
+//Function signatures
 void now(char *time_string);
-void welcome_screen(char *current_time);
-void print_exercice(exercice_template *temp_exercice);
+int menu_main();
+void fprint_exercice(exercice_template *temp_exercice, FILE *ptrTemplate);
 void choixInterval(exercice_template *temp_exercice);
 void cleanNewline(char *line);
-void remplir_template();
-void createtemplate_loop(char *buffer, char *whitespace);
+exercice_template remplir_template();
+int askquestion(char *question);
+void createtemplate_loop(exercice_template);
+void read_exercises(exercice_template *exercices);
+void printtemplatelist(exercice_template *templates);
+void menu_training(exercice_template *exercices);
+void menu_exercises(exercice_template *exercices);
+void menu_trainingday();
+void printExercise(exercice_template* exercise);
+void deleteExercise(exercice_template* exercise);
 

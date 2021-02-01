@@ -1,11 +1,27 @@
 ﻿  Source.c
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(25): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(105): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[100]'
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(105): warning C4024: 'cleanNewline': different types for formal and actual parameter 1
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(128): warning C4026: function declared with formal parameter list
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(133): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[1]'
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(133): warning C4024: 'askquestion': different types for formal and actual parameter 2
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(138): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[1]'
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(138): warning C4024: 'askquestion': different types for formal and actual parameter 2
-c:\users\kaustah\desktop\cours\exercice\prjcdatatraining\source.c(213): warning C4101: 'current_time': unreferenced local variable
-  prjCDataTraining.vcxproj -> C:\Users\Kaustah\Desktop\Cours\exercice\Debug\prjCDataTraining.exe
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Header.h(32,21): warning C4047: '=': 'short' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Header.h(33,34): warning C4047: '=': 'char' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Header.h(49,20): warning C4047: '=': 'short' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Header.h(50,25): warning C4047: '=': 'char' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(16,35): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(44,58): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(98,1): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(177,106): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[100]'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(177,79): warning C4024: 'cleanNewline': different types for formal and actual parameter 1
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(193,1): warning C4047: 'initializing': 'char' differs in levels of indirection from 'char [1]'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(211,45): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(219,45): warning C4028: formal parameter 1 different from declaration
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(223,7): warning C4101: 'answer': unreferenced local variable
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(251,25): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(255,25): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(269,45): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(310,45): warning C4047: '!=': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(350,1): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(392,87): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[50]'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(392,69): warning C4024: 'cleanNewline': different types for formal and actual parameter 1
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(417,7): warning C4101: 'answer': unreferenced local variable
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(432,1): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(474,18): warning C4047: 'function': 'exercice_template *' differs in levels of indirection from 'exercice_template (*)[20]'
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(474,8): warning C4024: 'setup': different types for formal and actual parameter 1
+C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\prjCDataTraining\Source.c(472,7): warning C4101: 'current_time': unreferenced local variable
+  prjCDataTraining.vcxproj -> C:\Users\kamal\Desktop\Code\Playground\C\prjExercice\Debug\prjCDataTraining.exe
